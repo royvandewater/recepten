@@ -5,6 +5,7 @@ gem 'rake', '0.8.7'
 gem 'mysql'
 
 gem 'heroku'
+
 gem 'jquery-rails'
 
 group :development, :test do
