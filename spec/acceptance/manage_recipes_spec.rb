@@ -7,6 +7,9 @@ describe 'Managing recipes', :type => :request do
       visit new_recipe_path
 
       click_button 'Create Recipe'
+
+      current_path.should == recipes_path
+      page.should have_content("Name can't be blank")
     end
 
     it 'should save an instance and redirect to show' do
@@ -18,6 +21,23 @@ describe 'Managing recipes', :type => :request do
       @recipe = Recipe.find_by_name 'Test Recipe'
       @recipe.should be_present
       current_path.should == recipe_path(@recipe)
+    end
+  end
+
+  context 'when updating recipes' do
+
+    before(:each) do
+      @recipe = Factory.create :recipe
+    end
+
+    it 'should display errors on an invalid model' do
+      visit edit_recipe_path(@recipe)
+
+      fill_in 'Name', :with => ''
+      click_button 'Update Recipe'
+
+      current_path.should == recipe_path(@recipe)
+      page.should have_content("Name can't be blank")
     end
   end
 end

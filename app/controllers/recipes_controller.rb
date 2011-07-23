@@ -27,16 +27,10 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(params[:recipe])
 
-      # if @recipe.save
-      #   respond_with @recipe, :status => :created, :location => @recipe, :notice => 'Recipe was successfully created.'
-      # else
-      # end
-
-    respond_to do |format|
-      if @recipe.save
-        format.html { redirect_to(@recipe, :notice => 'Recipe was successfully created.') }
-        format.json { render :json => @recipe, :status => :created, :location => @recipe }
-      else
+    if @recipe.save
+      respond_with @recipe, :status => :created, :location => @recipe, :notice => 'Recipe was successfully created.'
+    else
+      respond_to do |format|
         format.html { render :action => "new" }
         format.json { render :json => @recipe.errors, :status => :unprocessable_entity }
       end
@@ -49,10 +43,10 @@ class RecipesController < ApplicationController
     respond_to do |format|
       if @recipe.update_attributes(params[:recipe])
         format.html { redirect_to(@recipe, :notice => 'Recipe was successfully updated.') }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @recipe.errors, :status => :unprocessable_entity }
+        format.json { render :json => @recipe.errors, :status => :unprocessable_entity }
       end
     end
   end
