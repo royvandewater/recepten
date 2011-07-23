@@ -40,4 +40,18 @@ describe RecipesController do
       response.body.should include '{"name":["can\'t be blank"]}'
     end
   end
+
+  describe "destroying the recipe" do
+    before(:each) do
+      @recipe = Factory.create :recipe
+    end
+
+    it 'should destroy the recipe' do
+      delete :destroy, :format => :json, :id => @recipe.id
+
+      Recipe.find_by_id(@recipe.id).should_not be_present
+      response.status == 200
+      response.body.should be_blank
+    end
+  end
 end

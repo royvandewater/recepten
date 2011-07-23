@@ -40,4 +40,21 @@ describe 'Managing recipes', :type => :request do
       page.should have_content("Name can't be blank")
     end
   end
+
+  context 'when destroying the recipes' do
+
+    before(:each) do
+      @recipe = Factory.create :recipe
+    end
+
+    it 'should delete the recipe' do
+      visit recipes_path
+      within *row_containing(@recipe) do
+        click_link 'Destroy'
+      end
+
+      current_path.should == recipes_path
+      Recipe.find_by_id(@recipe.id).should_not be_present
+    end
+  end
 end
