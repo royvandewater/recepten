@@ -30,7 +30,7 @@ feature 'Manage recipes', %q{
 
   context 'when updating recipes' do
 
-    before(:each) do
+    background do
       @recipe = Factory.create :recipe
     end
 
@@ -42,7 +42,7 @@ feature 'Manage recipes', %q{
 
       current_path.should == recipe_path(@recipe)
       page.should have_content('Apple Pie')
-      @recipe.reload.name.should == 'Apple Pice'
+      @recipe.reload.name.should == 'Apple Pie'
     end
 
     scenario 'updating a model with invalid attributes' do
@@ -56,9 +56,9 @@ feature 'Manage recipes', %q{
     end
   end
 
-  scenario 'when destroying the recipes' do
+  context 'when destroying the recipes' do
 
-    before(:each) do
+    background do
       @recipe = Factory.create :recipe
     end
 

@@ -60,7 +60,8 @@ describe IngredientsController do
 
       it "redirects to the created ingredient" do
         post :create, :recipe_id => @recipe.id, :ingredient => valid_attributes
-        response.should redirect_to(Ingredient.last)
+        @ingredient = Ingredient.last
+        response.should redirect_to(recipe_ingredient_path @recipe, @ingredient)
       end
     end
 
@@ -97,7 +98,7 @@ describe IngredientsController do
 
       it "redirects to the ingredient" do
         put :update, :recipe_id => @ingredient.recipe.id, :id => @ingredient.id, :ingredient => valid_attributes
-        response.should redirect_to(@ingredient)
+        response.should redirect_to(recipe_ingredient_path(@ingredient.recipe, @ingredient))
       end
     end
 
@@ -129,7 +130,7 @@ describe IngredientsController do
 
     it "redirects to the ingredients list" do
       delete :destroy, :recipe_id => @ingredient.recipe.id, :id => @ingredient.id
-      response.should redirect_to(ingredients_url)
+      response.should redirect_to(recipe_ingredients_url(@ingredient.recipe))
     end
   end
 
