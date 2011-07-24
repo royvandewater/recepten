@@ -1,5 +1,7 @@
 Recepten::Application.routes.draw do
-  resources :recipes
+  resources :ingredients do
+    resources :recipes
+  end
 
   root :to => 'recipes#index'
 end

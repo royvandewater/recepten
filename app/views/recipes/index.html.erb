@@ -3,16 +3,14 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th class="span-1"></th>
+    <th class="span-1"></th>
+    <th class="span-1"></th>
   </tr>
 
 <% @recipes.each do |recipe| %>
   <tr>
     <td><%= recipe.name %></td>
-    <td><%= recipe.description %></td>
     <td><%= link_to 'Show', recipe %></td>
     <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
     <td><%= link_to 'Destroy', recipe, :confirm => 'Are you sure?', :method => :delete %></td>

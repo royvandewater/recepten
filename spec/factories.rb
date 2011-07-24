@@ -1,5 +1,15 @@
 FactoryGirl.define do
+  sequence :name do |n|
+    "name_#{n}"
+  end
+
   factory :recipe do
-    name 'Test Recipe'
+    name
+  end
+
+  factory :ingredient do
+    recipe
+    name
+    amount 'A bit'
   end
 end
