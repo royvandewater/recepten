@@ -1,9 +1,13 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
-describe 'Managing recipes', :type => :request do
+feature 'Manage recipes', %q{
+    So that I can store, retrieve and update my Recipes
+    As a Guest
+    I should be able to
+} do
 
-  context 'When creating a recipe' do
-    it 'should display errors on invalid model' do
+  context 'when creating a recipe' do
+    scenario 'creating an invalid recipe' do
       visit new_recipe_path
 
       click_button 'Create Recipe'
@@ -12,7 +16,7 @@ describe 'Managing recipes', :type => :request do
       page.should have_content("Name can't be blank")
     end
 
-    it 'should save an instance and redirect to show' do
+    scenario 'creating a valid model' do
       visit new_recipe_path
 
       fill_in 'Name', :with => 'Test Recipe'
@@ -30,7 +34,18 @@ describe 'Managing recipes', :type => :request do
       @recipe = Factory.create :recipe
     end
 
-    it 'should display errors on an invalid model' do
+    scenario 'updating the model' do
+      visit edit_recipe_path(@recipe)
+
+      fill_in 'Name', :with => 'Apple Pie'
+      click_button 'Update Recipe'
+
+      current_path.should == recipe_path(@recipe)
+      page.should have_content('Apple Pie')
+      @recipe.reload.name.should == 'Apple Pice'
+    end
+
+    scenario 'updating a model with invalid attributes' do
       visit edit_recipe_path(@recipe)
 
       fill_in 'Name', :with => ''
@@ -41,13 +56,13 @@ describe 'Managing recipes', :type => :request do
     end
   end
 
-  context 'when destroying the recipes' do
+  scenario 'when destroying the recipes' do
 
     before(:each) do
       @recipe = Factory.create :recipe
     end
 
-    it 'should delete the recipe' do
+    scenario 'deleting the recipe' do
       visit recipes_path
       within *row_containing(@recipe) do
         click_link 'Destroy'

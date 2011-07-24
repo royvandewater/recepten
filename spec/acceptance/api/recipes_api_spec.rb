@@ -1,51 +1,53 @@
 require 'spec_helper'
 
-describe 'using the recipes api' do
-  describe 'creating recipes' do
-    it 'should create an instance' do
-      pending 'Needs to be rewritten with capybara'
+feature 'Recipes API', %q{
+  So that I can manage the Recipe resources
+  As an API User
+  I should be able to
+} do
 
-      post :create, :format => :json, :recipe => {:name => 'Test Recipe'}
+  background do
+    Capybara.current_driver = :rack_test
+  end
+
+  context 'creating recipes' do
+    scenario 'create recipe' do
+      page.driver.post recipes_path(:format => :json), :recipe => {:name => 'Test Recipe'}
 
       Recipe.find_by_name('Test Recipe').should be_present
-      response.status.should == 201
-      response.body.should include 'Test Recipe'
+      page.status_code.should == 201
+      page.should have_content 'Test Recipe'
     end
 
-    it 'should fail to save and return errors' do
-      pending 'Needs to be rewritten with capybara'
-
-      post :create, :format => :json, :recipe => {}
+    scenario 'attempting to create an invalid recipe' do
+      page.driver.post recipes_path(:format => :json), :recipe => {}
 
       Recipe.find_by_name('Test Recipe').should_not be_present
-      response.body.should include '{"name":["can\'t be blank"]}'
+      page.should have_content '{"name":["can\'t be blank"]}'
     end
   end
 
-  describe 'updating recipes' do
+  context 'updating recipes' do
     before(:each) do
       @recipe = Factory.create :recipe
     end
 
-    it 'should update the Recipe' do
-      pending 'Needs to be rewritten with capybara'
-
+    scenario 'updating the Recipe' do
       @recipe.name = "Updated Recipe"
-      put :update, :format => :json, :id => @recipe.id, :recipe => @recipe.attributes
+      page.driver.put recipe_path(@recipe, :format => :json), :recipe => @recipe.attributes
 
-      Recipe.find(@recipe.id).name.should == "Updated Recipe"
-      response.status.should == 200
-      response.body.should be_blank
+      @recipe.reload.name.should == "Updated Recipe"
+      page.status_code.should == 200
+      page.should have_no_content ''
     end
 
-    it 'should fail to save and return errors' do
-      pending 'Needs to be rewritten with capybara'
-
+    scenario 'attempting to update a recipe with invalid attributes' do
       @recipe.name = ''
-      put :update, :format => :json, :id => @recipe.id, :recipe => @recipe.attributes
+      page.driver.put recipe_path(@recipe, :format => :json), :recipe => @recipe.attributes
 
-      Recipe.find(@recipe.id).name.should_not == ''
-      response.body.should include '{"name":["can\'t be blank"]}'
+      @recipe.reload.name.should_not == ''
+      page.status_code.should == 422
+      page.should have_content '{"name":["can\'t be blank"]}'
     end
   end
 
@@ -55,13 +57,11 @@ describe 'using the recipes api' do
     end
 
     it 'should destroy the recipe' do
-      pending 'Needs to be rewritten with capybara'
-
-      delete :destroy, :format => :json, :id => @recipe.id
+      page.driver.delete recipe_path(@recipe, :format => :json)
 
       Recipe.find_by_id(@recipe.id).should_not be_present
-      response.status == 200
-      response.body.should be_blank
+      page.status_code == 200
+      page.should have_no_content ''
     end
   end
 end
