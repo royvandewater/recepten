@@ -40,7 +40,7 @@ feature 'Manage ingredients', %q{
       click_button 'Add Ingredient'
 
       Ingredient.find_by_name('Apple').should be_present
-      page.should have_content 'Ingredient Created'
+      page.should have_content 'Ingredient was successfully created.'
       page.should have_content 'Apple'
     end
 

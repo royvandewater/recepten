@@ -58,10 +58,10 @@ describe IngredientsController do
         assigns(:ingredient).should be_persisted
       end
 
-      it "redirects to the created ingredient" do
+      it "redirects to the edit recipe page" do
         post :create, :recipe_id => @recipe.id, :ingredient => valid_attributes
         @ingredient = Ingredient.last
-        response.should redirect_to(recipe_ingredient_path @recipe, @ingredient)
+        response.should redirect_to(edit_recipe_path @recipe)
       end
     end
 

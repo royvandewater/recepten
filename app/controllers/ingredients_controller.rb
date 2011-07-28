@@ -31,11 +31,12 @@ class IngredientsController < ApplicationController
   end
 
   def create
+    debugger
     @ingredient = @recipe.ingredients.build(params[:ingredient])
 
     respond_to do |format|
       if @ingredient.save
-        format.html { redirect_to(recipe_ingredient_path(@recipe, @ingredient), :notice => 'Ingredient was successfully created.') }
+        format.html { redirect_to(edit_recipe_path(@recipe), :notice => 'Ingredient was successfully created.') }
         format.xml  { render :xml => @ingredient, :status => :created, :location => @ingredient }
       else
         format.html { render :action => "new" }
