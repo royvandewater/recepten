@@ -4,4 +4,8 @@ class Ingredient < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :amount
   validates_presence_of :recipe
+
+  def to_s
+    name
+  end
 end

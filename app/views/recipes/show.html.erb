@@ -10,6 +10,19 @@
   <%= @recipe.description %>
 </p>
 
+<div>
+  <% if @recipe.has_ingredients? -%>
+    <ul>
+      <% @recipe.ingredients.each do |ingredient| -%>
+        <li><%= ingredient %></li>
+      <% end -%>
+    </ul>
+  <% else -%>
+  This recipe has no ingredients
+  <% end -%>
+
+</div>
+
 
 <%= link_to 'Edit', edit_recipe_path(@recipe) %> |
 <%= link_to 'Back', recipes_path %>

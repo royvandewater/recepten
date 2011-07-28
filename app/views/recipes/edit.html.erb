@@ -2,5 +2,15 @@
 
 <%= render 'form' %>
 
+<%= form_for(@ingredient, :url => recipe_ingredients_path(@ingredient.recipe, @ingredient)) do |f| %>
+  <%= f.label :name, 'Ingredient name' %>
+  <%= f.text_field :name %>
+
+  <%= f.label :amount %>
+  <%= f.text_field :amount %>
+
+  <%= f.submit 'Add Ingredient' %>
+<% end %>
+
 <%= link_to 'Show', @recipe %> |
 <%= link_to 'Back', recipes_path %>
