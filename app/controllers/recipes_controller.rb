@@ -2,6 +2,8 @@ class RecipesController < ApplicationController
 
   respond_to :html, :json
 
+  before_filter :find_recipe, :except => [:index, :new, :create]
+
   def index
     @recipes = Recipe.all
 
@@ -9,8 +11,6 @@ class RecipesController < ApplicationController
   end
 
   def show
-    @recipe = Recipe.find(params[:id])
-
     respond_with @recipe
   end
 
@@ -21,7 +21,6 @@ class RecipesController < ApplicationController
   end
 
   def edit
-    @recipe = Recipe.find(params[:id])
   end
 
   def create
@@ -38,8 +37,6 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
-
     respond_to do |format|
       if @recipe.update_attributes(params[:recipe])
         format.html { redirect_to(@recipe, :notice => 'Recipe was successfully updated.') }
@@ -52,12 +49,16 @@ class RecipesController < ApplicationController
   end
 
   def destroy
-    @recipe = Recipe.find(params[:id])
     @recipe.destroy
 
     respond_to do |format|
       format.html { redirect_to(recipes_url) }
       format.json { head :ok }
     end
+  end
+
+  private
+  def find_recipe
+    @recipe = Recipe.find params[:id]
   end
 end

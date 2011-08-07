@@ -1,30 +1,24 @@
 class IngredientsController < ApplicationController
+
+  respond_to :html, :json
+
   before_filter :find_recipe
   before_filter :find_ingredient, :except => [:index, :new, :create]
 
   def index
     @ingredients = @recipe.ingredients.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @ingredients }
-    end
+    respond_with @ingredients
   end
 
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @ingredient }
-    end
+    respond_with @ingredient
   end
 
   def new
     @ingredient = @recipe.ingredients.build
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @ingredient }
-    end
+    respond_with @ingredient
   end
 
   def edit
@@ -35,11 +29,11 @@ class IngredientsController < ApplicationController
 
     respond_to do |format|
       if @ingredient.save
-        format.html { redirect_to(edit_recipe_path(@recipe), :notice => 'Ingredient was successfully created.') }
-        format.xml  { render :xml => @ingredient, :status => :created, :location => @ingredient }
+        format.html { redirect_to edit_recipe_path(@recipe), :notice => 'Ingredient was successfully created.' }
+        format.json { render :json => @ingredient, :status => :created, :location => recipe_path(@recipe) }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @ingredient.errors, :status => :unprocessable_entity }
+        format.json { render :json => @ingredient.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -48,10 +42,10 @@ class IngredientsController < ApplicationController
     respond_to do |format|
       if @ingredient.update_attributes(params[:ingredient])
         format.html { redirect_to(recipe_ingredient_path(@recipe, @ingredient), :notice => 'Ingredient was successfully updated.') }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @ingredient.errors, :status => :unprocessable_entity }
+        format.json { render :json => @ingredient.errors, :status => :unprocessable_entity }
       end
     end
   end

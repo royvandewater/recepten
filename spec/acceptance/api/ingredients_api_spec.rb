@@ -16,11 +16,11 @@ feature 'Ingredients API', %q{
     end
 
     scenario 'create recipe' do
-      page.driver.post recipe_ingredients_path(@recipe, :format => :json), :ingredient => {:name => 'Test Ingredient'}
+      page.driver.post recipe_ingredients_path(@recipe, :format => :json), :ingredient => {:name => 'Test Ingredient', :amount => '2 cup'}
 
-      Recipe.find_by_name('Test Recipe').should be_present
+      Ingredient.find_by_name('Test Ingredient').should be_present
       page.status_code.should == 201
-      page.should have_content 'Test Recipe'
+      page.should have_content 'Test Ingredient'
     end
 
   end
