@@ -2,7 +2,7 @@
 
 <%= render 'form' %>
 
-<%= form_for(@ingredient, :url => recipe_ingredients_path(@ingredient.recipe, @ingredient)) do |f| %>
+<%= form_for(@recipe.ingredients.build, :url => recipe_ingredients_path(@recipe)) do |f| %>
   <%= f.label :name, 'Ingredient name' %>
   <%= f.text_field :name %>
 
@@ -11,6 +11,9 @@
 
   <%= f.submit 'Add Ingredient' %>
 <% end %>
+
+
+<%= render :partial => 'ingredients/ingredients', :object => @recipe.ingredients.select(&:persisted?) %>
 
 <%= link_to 'Show', @recipe %> |
 <%= link_to 'Back', recipes_path %>

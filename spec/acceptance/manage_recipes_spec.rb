@@ -45,7 +45,7 @@ feature 'Manage recipes', %q{
       @recipe.reload.name.should == 'Apple Pie'
     end
 
-    scenario 'updating a model with invalid attributes' do
+    scenario 'with invalid attributes' do
       visit edit_recipe_path(@recipe)
 
       fill_in 'Name', :with => ''

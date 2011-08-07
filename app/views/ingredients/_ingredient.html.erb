@@ -1,0 +1,9 @@
+<tr>
+  <td><%= ingredient.recipe_id %></td>
+  <td><%= ingredient.position %></td>
+  <td><%= ingredient.name %></td>
+  <td><%= ingredient.amount %></td>
+  <td><%= link_to 'Show', recipe_ingredient_path(ingredient.recipe, ingredient) %></td>
+  <td><%= link_to 'Edit', edit_recipe_ingredient_path(ingredient.recipe, ingredient) %></td>
+  <td><%= link_to 'Destroy', recipe_ingredient_path(ingredient.recipe, ingredient), :confirm => 'Are you sure?', :method => :delete %></td>
+</tr>

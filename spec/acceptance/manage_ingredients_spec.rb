@@ -32,7 +32,7 @@ feature 'Manage ingredients', %q{
       @recipe = Factory.create :recipe
     end
 
-    scenario 'with invalid parameters' do
+    scenario 'with valid parameters' do
       visit edit_recipe_path @recipe
 
       fill_in 'Ingredient name', :with => 'Apple'
