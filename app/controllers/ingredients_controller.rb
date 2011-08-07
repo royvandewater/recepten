@@ -31,7 +31,6 @@ class IngredientsController < ApplicationController
   end
 
   def create
-    debugger
     @ingredient = @recipe.ingredients.build(params[:ingredient])
 
     respond_to do |format|
